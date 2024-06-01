@@ -24,43 +24,38 @@ async def read_root():
 	html_content = header_html + """
      
      <!doctype html>
-<html lang='en'>
-  <head>
-	<meta charset='utf-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
-	<title>Medallero</title>
-	<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
-  <link rel="stylesheet" href="static/css/MainMenu.css">
-
-  </head>
-  <body>
-    <nav class='navbar navbar-expand-lg bg-body-tertiary'>
-    <div class='container-fluid'>
-	<a class='navbar-brand' href='http://www.google.com'>Gravity</a>
-	<button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
-  	<span class='navbar-toggler-icon'></span>
-	</button>
-	<div class='collapse navbar-collapse' id='navbarSupportedContent'>
-  	<!-- unordered list  ul	list item li-->
-  	<ul class='navbar-nav me-auto mb-2 mb-lg-0'>
-    	<li class='nav-item'>
-      	<a class='nav-link active' aria-current='page' href='/InsertarPagina'>Medallero</a>
-    	</li>
-    	<li class='nav-item'>
-      	<a class='nav-link' href='/movies'>Deportistas</a>
-    	</li>
-    	<li class='nav-item'>
-      	<a class='nav-link' href='/InsertarPagina'>Sedes</a>
-    	</li>   	 
-  	</ul>
-       
-	</div>
-     </div>
-
-     <div class="logoUno">
-            <img src="/static/images/logo.png" alt="bot">
-        </div>
-    </nav>""" + footer_html
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- Title Page -->  
+    <title>Login</title>
+ 
+    <!-- CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
+    <link rel="stylesheet" href="static/css/styles2.css">
+    <link rel="stylesheet" href="static/css/animate.css">
+    <link rel="stylesheet" href="static/css/reset.css">
+</head>
+<body>
+    <div id="container">
+        <form>
+            <!-- Username -->
+            <label for="name">Username:</label>
+            <input type="name">
+            <!-- Password -->
+            <label for="username">Password:</label>
+            <p><a href="#">Forgot your password?</a>
+            <input type="password">
+            <div id="lower">
+                <input type="checkbox"><label class="check" for="checkbox">Keep me logged in</label>
+                <!-- Submit Button -->
+                <input type="submit" value="Login">
+            </div>
+        </form>       
+    </div>
+</body>
+</html>""" + footer_html
     
 	return HTMLResponse(content=html_content, status_code=200)
 
