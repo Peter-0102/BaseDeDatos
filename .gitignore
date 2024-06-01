@@ -1,6 +1,6 @@
 # Ignorar la carpeta del entorno virtual
 env_Movie_DB/
-.env_Movie_DB/
+
 
 # Ignorar archivos de caché de Python
 __pycache__/
