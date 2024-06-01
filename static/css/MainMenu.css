@@ -1,0 +1,8 @@
+
+body {
+    /* Gradiente lineal de arriba a abajo (top to bottom) */
+    background: linear-gradient(to bottom, #737487, #2cafb3);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }

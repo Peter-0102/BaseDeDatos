@@ -1,0 +1,74 @@
+
+body {
+  /* Gradiente lineal de arriba a abajo (top to bottom) */
+  background: linear-gradient(to bottom, #030637, #3C0753);
+  
+  /* Alternativa para navegadores más antiguos (puedes omitir si no necesitas soportar navegadores muy antiguos) */
+  /*background: -webkit-linear-gradient(to bottom, #ff7e5f, #feb47b);
+  background: -moz-linear-gradient(to bottom, #ff7e5f, #feb47b);
+  background: -o-linear-gradient(to bottom, #ff7e5f, #feb47b);
+  background: -ms-linear-gradient(to bottom, #ff7e5f, #feb47b);*/
+  
+  /* Asegurarse de que el fondo cubre toda la página */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Estilizar el contenedor con las clases .container y .mt-5 */
+.container.mt-5 {
+  /* Agrega un borde */
+  border: 2px solid #000;
+  
+  /* Redondea las esquinas */
+  border-radius: 5px;
+  
+  /* Agrega un fondo de color */
+  background-color: #030637;
+  
+  /* Añade un poco de padding */
+  padding: 10px;
+  
+  /* Sombra */
+  box-shadow: 0 14px 15px rgba(1, 0, 0, 0.5);
+}
+
+/* css/styles.css */
+
+/* Estilizar el contenedor del título */
+.title-container {
+  background-color: #030637; /* Color de fondo */
+  padding: 15px;            /* Espaciado interno */
+  text-align: left;         /* Alinear el texto a la izquierda */
+  border-radius: 5px;       /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Estilizar el título */
+.title-container h1 {
+  margin: 0;                /* Quitar el margen del título */
+  color: #007bff;           /* Color del texto */
+  font-family: 'Arial', sans-serif; /* Fuente */
+}
+
+/* Estilizar el logo */
+.logo {
+  width: 50px; /* Ajusta el tamaño del logo según sea necesario */
+  height: auto;
+}
+
+
+.form-container {
+    background-color: #030637; /* Color de fondo para el formulario */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Sombra para efecto de elevación */
+}
+
+.title-container h1 {
+    background-color: #030637; /* Color de fondo para el título */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1); /* Sombra para efecto de elevación */
+}
