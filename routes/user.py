@@ -34,16 +34,19 @@ async def read_root():
     <!-- CSS -->
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
     <link rel="stylesheet" href="static/css/styles2.css">
-    <link rel="stylesheet" href="static/css/animate.css">
-    <link rel="stylesheet" href="static/css/reset.css">
+    
 </head>
 <body>
+    <div id="container2"></div>
     <div id="container">
         <form action= '/Login' method = 'post'>
-            <!-- Username -->
-            <label for='user'>Username:</label>
+            <!-- Username --> 
+            <p>CINESTREAM</p>
+            
+            <label for='user'>Username: </label>
             <input type="text" id='user' name='User'>
             <!-- Password -->
+            
             <label for="password">Password:</label>
             <input type="text" id='password' name='PassWord'>
             
