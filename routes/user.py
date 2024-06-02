@@ -39,16 +39,15 @@ async def read_root():
 </head>
 <body>
     <div id="container">
-        <form>
+        <form action= '/Login' method = 'post'>
             <!-- Username -->
-            <label for="name">Username:</label>
-            <input type="name">
+            <label for='user'>Username:</label>
+            <input type="text" id='user' name='User'>
             <!-- Password -->
-            <label for="username">Password:</label>
-            <p><a href="#">Forgot your password?</a>
-            <input type="password">
-            <div id="lower">
-                <input type="checkbox"><label class="check" for="checkbox">Keep me logged in</label>
+            <label for="user">Password:</label>
+            <input type="text" id='password' name='PassWord'>
+            
+            
                 <!-- Submit Button -->
                 <input type="submit" value="Login">
             </div>
@@ -58,6 +57,32 @@ async def read_root():
 </html>""" + footer_html
     
 	return HTMLResponse(content=html_content, status_code=200)
+
+
+@user.post("/Login")
+async def InicioSecion(request: Request, User: str = Form(...), PassWord: str= Form(...)):
+    
+    if(user == "Hola"):
+         print("Hola 2")
+    else:
+         print("HOla3")     
+    try:
+        conn = create_connection("localhost","root","root", "PRUBA2")
+        cursor = conn.cursor()
+        print("Conecion exitosa :D2222")
+        cursor.execute(f"""
+            INSERT INTO `Nombre1`(`Pedro`, `Cruz`) VALUES (%s, %s)
+        """, (User, PassWord))
+
+        conn.commit()
+        conn.close()
+        
+        return HTMLResponse(content=f" INSERT EXITOSO :D DATOS {User},{PassWord}", status_code=200)
+
+    except Error as error:
+        #return {}
+        raise HTTPException(status_code=500, detail=f"Error al insertar datos: {error}")
+   
 
 
 @user.get("/movies")
