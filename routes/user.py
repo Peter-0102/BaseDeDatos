@@ -48,7 +48,7 @@ async def read_root():
             <!-- Password -->
             
             <label for="password">Password:</label>
-            <input type="text" id='password' name='PassWord'>
+            <input type="password" id='password' name='PassWord'>
             
             
                 <!-- Submit Button -->
