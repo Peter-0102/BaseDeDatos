@@ -1,7 +1,7 @@
 from fastapi import APIRouter , Request, Form, HTTPException
 
 
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 import mysql.connector
 from mysql.connector import Error
 
@@ -66,27 +66,17 @@ async def read_root():
 async def InicioSecion(request: Request, User: str = Form(...), PassWord: str= Form(...)):
     print(User)
     print(PassWord)
-    if(user == "Hola"):
-         print("Hola 2")
+    if ( User == "root" and PassWord == "root"):
+         #TODO Menu Admin
+         print("admin")
+    elif(User == "User" and PassWord =="123"):   
+        print("user normal")
     else:
-         print("HOla3")     
-    try:
-        conn = create_connection("localhost","root","root", "PRUBA2")
-        cursor = conn.cursor()
-        print("Conecion exitosa :D2222")
-        cursor.execute(f"""
-            INSERT INTO `Nombre1`(`Pedro`, `Cruz`) VALUES (%s, %s)
-        """, (User, PassWord))
+                 print("user no admin no normal")
+                 return RedirectResponse(url="/", status_code=303)
 
-        conn.commit()
-        conn.close()
-        
-        return HTMLResponse(content=f" INSERT EXITOSO :D DATOS {User},{PassWord}", status_code=200)
 
-    except Error as error:
-        #return {}
-        raise HTTPException(status_code=500, detail=f"Error al insertar datos: {error}")
-   
+
 
 
 @user.get("/movies")
