@@ -44,7 +44,7 @@ async def read_root():
             <label for='user'>Username:</label>
             <input type="text" id='user' name='User'>
             <!-- Password -->
-            <label for="user">Password:</label>
+            <label for="password">Password:</label>
             <input type="text" id='password' name='PassWord'>
             
             
@@ -61,7 +61,8 @@ async def read_root():
 
 @user.post("/Login")
 async def InicioSecion(request: Request, User: str = Form(...), PassWord: str= Form(...)):
-    
+    print(User)
+    print(PassWord)
     if(user == "Hola"):
          print("Hola 2")
     else:
