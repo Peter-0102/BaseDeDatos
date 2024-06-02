@@ -1,0 +1,38 @@
+
+  
+
+#carousel1{
+    
+    width: auto ;
+    height: auto ;
+    animation: bounceIn 1s linear both;
+   
+}
+
+#carouselExampleSlidesOnly {
+    width: 100%; /* Ancho completo */
+}
+
+#carouselExampleIndicators {
+    max-width: 2500px;  /* Establece un ancho máximo para el carrusel */
+    margin: 5px 20px; /* Centra el carrusel en la página */
+  }
+
+  .carousel-item img {
+    max-height: 500px; /* Ajusta el tamaño máximo de altura de las imágenes */
+    width: 100%; /* Ajusta el ancho de las imágenes para que ocupen todo el carrusel */
+    object-fit: cover; /* Ajusta el tamaño de las imágenes manteniendo la proporción y recortando si es necesario */
+  }
+
+  .images-container {
+    display: flex;
+    flex-wrap: wrap; /* Para que las imágenes se envuelvan a la siguiente línea si no hay suficiente espacio */
+    justify-content: center;
+    gap: 20px; /* Espacio entre las imágenes */
+  }
+
+  /* Estilo para las imágenes */
+  .images-container img {
+    max-width: 200px; /* Establece un ancho máximo para las imágenes */
+    height: auto; /* Para mantener la proporción de aspecto de las imágenes */
+  }
