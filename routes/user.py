@@ -67,13 +67,12 @@ async def InicioSecion(request: Request, User: str = Form(...), PassWord: str= F
     print(User)
     print(PassWord)
     if ( User == "root" and PassWord == "root"):
-         #TODO Menu Admin
-         print("admin")
+        return RedirectResponse(url="/InsertarPagina",status_code=303)
     elif(User == "User" and PassWord =="123"):   
-        print("user normal")
+        return RedirectResponse(url="/movies",status_code=303)
     else:
-                 print("user no admin no normal")
-                 return RedirectResponse(url="/", status_code=303)
+        print("user no admin no normal")
+        return RedirectResponse(url="/", status_code=303)
 
 
 
