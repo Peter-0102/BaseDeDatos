@@ -17,4 +17,4 @@ def create_connection(host_name, user_name, user_password, db_name):
     return connection
 
 # Conectar a la base de datos usando tus credenciales
-connection = create_connection("localhost", "root", "root", "PRUBA2")
+connection = create_connection("localhost", "root", "root", "movies") 

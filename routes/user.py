@@ -226,223 +226,284 @@ async def menuU():
 
 
 @user.post("/ConsultaPeli")
-async def ConsulaPeliculas(request: Request, Titulo: str = Form(...)):
 
-  
-  headerMOvies= """"
-        <!doctype html>
-    <html lang='en'>
-      <head>
-      <meta charset='utf-8'>
-      <meta name='viewport' content='width=device-width, initial-scale=1'>
-      <title>Medallero</title>
-      <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
-      <link rel="stylesheet" href="static/css/styles.css">
+async def ConsultaPeliculas(request: Request, Titulo: str = Form(...)):
+    # Encabezado HTML con Bootstrap
+    headerMovies = """
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Consulta de Películas</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+                body {
+                    background-color: #f8f9fa;
+                }
+                .container {
+                    margin-top: 50px;
+                }
+                .table th, .table td {
+                    vertical-align: middle;
+                }
+                .mi-boton {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    background-color: #007bff;
+                    color: #fff;
+                    text-decoration: none;
+                    border-radius: 5px;
+                }
+                .mi-boton:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1 class="mb-4">Consulta de Películas</h1>
+    """
 
-      </head>
-      <body>
-        """
+    # Conexión a la base de datos
+    print(Titulo)
+    conn = create_connection("localhost", "root", "root", "movies")
 
-  print(Titulo)
+    cursor = conn.cursor()
+
+    # Ejecutar consulta SQL
+    cursor.execute(f"""SELECT title, overview, ROUND(popularity, 2), release_date, vote_average 
+                       FROM movie 
+                       WHERE title LIKE '%{Titulo}%' 
+                       LIMIT 5;""")
     
-  conn = create_connection("localhost", "root", "root", "movies")
+    rows = cursor.fetchall()
 
-  cursor = conn.cursor()
+    # Generar tabla HTML con los resultados
+    result = """
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>IMAGEN</th>
+                                <th>TÍTULO</th>
+                                <th>SINOPSIS</th>
+                                <th>POPULARIDAD</th>
+                                <th>LANZAMIENTO</th>
+                                <th>APROBACIÓN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    """
+    for row in rows:
+        result += f"""
+                            <tr>
+                                <td><img src="static/images/imagen5.jpg" alt="Imagen 3" style="width: 100px; height: 100px;"></td>
+                                <td>{row[0]}</td>
+                                <td>{row[1]}</td>
+                                <td>{row[2]}</td>
+                                <td>{row[3]}</td>
+                                <td>{row[4]}</td>
+                            </tr>
+        """
+    result += """
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </body>
+        </html>
+    """
+    result +="""
+    <div class="text-center"> <!-- Div centrado -->
+        <a href="/menuU" class="mi-boton">Regresar menu</a>
+    </div>
+    """
+    # Cerrar conexión a la base de datos
+    conn.close()
 
-  cursor.execute(f"""SELECT M.title, M.overview, TRUNCATE(M.popularity,2), M.release_date,M.vote_average FROM movie as M 
-        WHERE M.title like '%{Titulo}%'  LIMIT 5;""")
-  
-
-  result = "<table class='table table-hover'>"
-  result += "<tr><th>IMAGEN</th><th>TITULO</th><th>SINOPSIS</th><th>POPULARIDAD</th><th>LANZAMIENTO</th><th>APROVACION</th></tr>"
-
-  rows= cursor.fetchall() 
-
-  for row in rows:
-             
-             result += "<td><img src='static/images/imagen5.jpg' alt='Imagen 3' style='width: 100px; height: 100px;'></td>"
-             result += "<td>" + str(row[0])  + "</td>"
-             result += "<td> " + str(row[1])+ "</td>"
-             result += "<td> " + str(row[2])+ "</td> "
-             result += "<td> " + str(row[3])+ "</td> "
-             result += "<td> " + str(row[4])+ "</td><tr> "
-
-  
-  result += "</table>"  
-
-  result += '<a href="/menuU" class="mi-boton">Haz Clic Aquí</a>'
-
-  conn.commit()
-  conn.close()
-
-  return HTMLResponse(content=headerMOvies + result + footer_html, status_code=200)
-  
+    # Devolver respuesta HTML
+    return HTMLResponse(content=headerMovies + result, status_code=200)
 
 
 @user.post("/ConsultaGenero")
 async def ConsulaGenero(request: Request, Genero: str = Form(...)):
-
   
-  headerMOvies= """"
+    headerMovies = """
         <!doctype html>
-    <html lang='en'>
-      <head>
-      <meta charset='utf-8'>
-      <meta name='viewport' content='width=device-width, initial-scale=1'>
-      <title>Medallero</title>
-      <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
-      <link rel="stylesheet" href="static/css/styles.css">
+        <html lang='en'>
+          <head>
+          <meta charset='utf-8'>
+          <meta name='viewport' content='width=device-width, initial-scale=1'>
+          <title>Consulta de Género</title>
+          <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
+          
+          <style>
+              body {
+                  background-color: white; /* Establece el fondo en blanco */
+              }
+          </style>
+          </head>
+          <body>
+            <div class="container">
+    """
 
-      </head>
-      <body>
-        """
+    conn = create_connection("localhost", "root", "root", "movies")
+    cursor = conn.cursor()
 
-  print(Genero)
-    
-  conn = create_connection("localhost", "root", "root", "movies")
+    cursor.execute(f"""SELECT M.title
+                        FROM movie as M
+                        LEFT JOIN movie_genres on movie_genres.movie_id = M.movie_id
+                        LEFT JOIN genre on genre.genre_id = movie_genres.genre_id
+                        WHERE genre.genre_name like '%{Genero}%'
+                        limit 20;""")
 
-  cursor = conn.cursor()
+    result = "<table class='table table-hover'>"
+    result += "<tr><th>IMAGEN</th><th>TITULO</th></tr>"
 
-  cursor.execute(f"""SELECT M.title
+    rows = cursor.fetchall() 
 
-                    FROM movie as M
+    for row in rows:
+        result += "<tr>"
+        result += "<td><img src='static/images/imagen5.jpg' alt='Imagen 3' style='width: 100px; height: 100px;'></td>"
+        result += "<td>" + str(row[0]) + "</td>"
+        result += "</tr>"
 
-                    LEFT JOIN movie_genres on movie_genres.movie_id= M.movie_id
-                    LEFT JOIN genre on genre.genre_id = movie_genres.genre_id
+    result += "</table>"  
+    result += '<a href="/menuU" class="btn btn-primary">Volver al Menú</a>'
 
-                    WHERE genre.genre_name like '%{Genero}%';""")
-  
+    conn.commit()
+    conn.close()
 
-  result = "<table class='table table-hover'>"
-  result += "<tr><th>IMAGEN</th><th>TITULO</th></tr>"
+    footer_html = """
+        </div> <!-- Cierre del contenedor "container" -->
+        </body>
+        </html>
+    """
 
-  rows= cursor.fetchall() 
-
-  for row in rows:
-             
-             result += "<td><img src='static/images/imagen5.jpg' alt='Imagen 3' style='width: 100px; height: 100px;'></td>"       
-             result += "<td> " + str(row[0])+ "</td><tr> "
-
-  
-  result += "</table>"  
-
-  result += '<a href="/menuU" class="mi-boton">Haz Clic Aquí</a>'
-
-  conn.commit()
-  conn.close()
-
-  return HTMLResponse(content=headerMOvies + result + footer_html, status_code=200)
-
-
+    return HTMLResponse(content=headerMovies + result + footer_html, status_code=200)
 
 @user.post("/ConsultaProductora")
 async def ConsultaProductora(request: Request, Productora: str = Form(...)):
 
-  
-  headerMOvies= """"
-        <!doctype html>
-    <html lang='en'>
-      <head>
-      <meta charset='utf-8'>
-      <meta name='viewport' content='width=device-width, initial-scale=1'>
-      <title>Medallero</title>
-      <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
-      <link rel="stylesheet" href="static/css/styles.css">
+    # Encabezado HTML con Bootstrap
+    headerMovies = """
+        <!DOCTYPE html>
+        <html lang='es'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Consulta de Productora</title>
+                <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+            </head>
+            <body>
+                <div class="container">
+    """
 
-      </head>
-      <body>
-        """
+    # Conexión a la base de datos
+    conn = create_connection("localhost", "root", "root", "movies")
+    cursor = conn.cursor()
 
-  print(Productora)
-    
-  conn = create_connection("localhost", "root", "root", "movies")
+    # Ejecutar consulta SQL
+    cursor.execute(f"""SELECT movie.title, production_company.company_name
+                       FROM movie
+                       LEFT JOIN movie_company ON movie.movie_id = movie_company.movie_id
+                       LEFT JOIN production_company ON movie_company.company_id = production_company.company_id
+                       WHERE production_company.company_name LIKE '%{Productora}%';""")
 
-  cursor = conn.cursor()
+    # Generar tabla HTML con los resultados
+    result = "<table class='table table-hover'>"
+    result += "<tr><th>IMAGEN</th><th>Título</th><th>Productora</th></tr>"
 
-  cursor.execute(f"""SELECT movie.title, production_company.company_name
-                    FROM movie
-                    LEFT JOIN movie_company ON movie.movie_id=movie_company.movie_id
-                    LEFT JOIN production_company ON movie_company.company_id=production_company.company_id
-                    WHERE production_company.company_name LIKE '%{Productora}%';""")
-  
+    rows = cursor.fetchall() 
 
-  result = "<table class='table table-hover'>"
-  result += "<tr><th>IMAGEN</th><th>Titulo</th><th>Productora</th></tr>"
+    for row in rows:
+        result += "<tr>"
+        result += "<td><img src='static/images/imagen5.jpg' alt='Imagen 3' style='width: 100px; height: 100px;'></td>"
+        result += "<td>" + str(row[0]) + "</td>"
+        result += "<td>" + str(row[1]) + "</td>"
+        result += "</tr>"
 
-  rows= cursor.fetchall() 
+    result += "</table>"  
 
-  for row in rows:
-             
-             result += "<td><img src='static/images/imagen5.jpg' alt='Imagen 3' style='width: 100px; height: 100px;'></td>"       
-             result += "<td> " + str(row[0])+ "</td> "
-             result += "<td> " + str(row[1])+ "</td><tr> "
+    # Cerrar conexión a la base de datos
+    conn.commit()
+    conn.close()
 
-  
-  result += "</table>"  
+    # Enlace para volver al menú
+    volver_menu = '<a href="/menuU" class="btn btn-primary">Volver al Menú</a>'
 
-  result += '<a href="/menuU" class="mi-boton">Haz Clic Aquí</a>'
+    # Pie de página HTML
+    footer_html = """
+                </div> <!-- Cierre del contenedor "container" -->
+            </body>
+        </html>
+    """
 
-  conn.commit()
-  conn.close()
-
-  return HTMLResponse(content=headerMOvies + result + footer_html, status_code=200)
-
+    # Devolver respuesta HTML
+    return HTMLResponse(content=headerMovies + result + volver_menu + footer_html, status_code=200)
 
 @user.post("/ConsultaDoblaje")
 async def ConsultaDoblaje(request: Request, Doblaje: str = Form(...)):
+  headerMovies = """
+        <!DOCTYPE html>
+        <html lang='es'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Consulta de Doblaje</title>
+                <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+                
+            </head>
+            <body>
+                <div class="container">
+    """
 
-  
-  headerMOvies= """"
-        <!doctype html>
-    <html lang='en'>
-      <head>
-      <meta charset='utf-8'>
-      <meta name='viewport' content='width=device-width, initial-scale=1'>
-      <title>Medallero</title>
-      <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
-      <link rel="stylesheet" href="static/css/styles.css">
-
-      </head>
-      <body>
-        """
-
-  print(Doblaje)
-    
+    # Conexión a la base de datos
   conn = create_connection("localhost", "root", "root", "movies")
-
   cursor = conn.cursor()
 
-  cursor.execute(f"""SELECT movie.title,language.language_name
-                     FROM movie
-                     LEFT JOIN movie_languages ON movie.movie_id=movie_languages.movie_id
-                     LEFT JOIN language ON movie_languages.language_id=language.language_id
-                     WHERE language.language_name LIKE '%{Doblaje}%'""")
-  
+    # Ejecutar consulta SQL
+  cursor.execute(f"""SELECT movie.title, language.language_name
+                       FROM movie
+                       LEFT JOIN movie_languages ON movie.movie_id = movie_languages.movie_id
+                       LEFT JOIN language ON movie_languages.language_id = language.language_id
+                       WHERE language.language_name LIKE '%{Doblaje}%';""")
 
-  result = f"<a href='#' style='color: red;'>PELICULAS DOBLAS A '{Doblaje}'</a>"
+    # Título con el idioma de doblaje
+  result = f"<h2>Películas dobladas a '{Doblaje}'</h2>"
 
+    # Generar tabla HTML con los resultados
   result += "<table class='table table-hover'>"
-  result += "<tr><th>IMAGEN</th><th>Titulo</th><th>Idioma</th></tr>"
+  result += "<tr><th>IMAGEN</th><th>Título</th><th>Idioma</th></tr>"
 
-  rows= cursor.fetchall() 
+  rows = cursor.fetchall() 
 
   for row in rows:
-             
-             result += "<td><img src='static/images/imagen5.jpg' alt='Imagen 3' style='width: 100px; height: 100px;'></td>"       
-             result += "<td> " + str(row[0])+ "</td> "
-             result += "<td> " + str(row[1])+ "</td><tr> "
+      result += "<tr>"
+      result += "<td><img src='static/images/imagen5.jpg' alt='Imagen 3' style='width: 100px; height: 100px;'></td>"
+      result += "<td>" + str(row[0]) + "</td>"
+      result += "<td>" + str(row[1]) + "</td>"
+      result += "</tr>"
 
-  
   result += "</table>"  
 
-  result += '<a href="/menuU" class="mi-boton">Haz Clic Aquí</a>'
-
+  # Cerrar conexión a la base de datos
   conn.commit()
   conn.close()
 
-  return HTMLResponse(content=headerMOvies + result + footer_html, status_code=200)
+  # Enlace para volver al menú
+  volver_menu = '<a href="/menuU" class="btn btn-primary">Volver al Menú</a>'
 
+  # Pie de página HTML
+  footer_html = """
+              </div> <!-- Cierre del contenedor "container" -->
+          </body>
+      </html>
+  """
 
+  # Devolver respuesta HTML
+  return HTMLResponse(content=headerMovies + result + volver_menu + footer_html, status_code=200)
 
 
 
