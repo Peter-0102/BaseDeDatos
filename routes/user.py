@@ -529,9 +529,9 @@ async def menuA():
         <li class="dropdown">
             <a href="#">Agregar</a>
             <ul class="dropdown-menu">
-                <li><a href="#">Agregar Actor</a></li>
-                <li><a href="#">Agregar Pelicula</a></li>
-                <li><a href="#">Agregar keyword</a></li>
+                <li><a href="/InsertarActor">Agregar Actor</a></li>
+                <li><a href="/InsertarPelicula">Agregar Pelicula</a></li>
+                <li><a href="/InsertarKeyWord">Agregar keyword</a></li>
             </ul>
         </li>
         <li><a href="#">Eliminar</a></li>
@@ -544,178 +544,203 @@ async def menuA():
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@user.get("/movies")
-async def helloWorld():
-    
-    headerMOvies= """"
-    <!doctype html>
-<html lang='en'>
-  <head>
-	<meta charset='utf-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
-	<title>Medallero</title>
-	<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
-  <link rel="stylesheet" href="static/css/styles.css">
 
-  </head>
-  <body>
+@user.get("/InsertarActor")
+async def InsertarActor(request: Request, message: str = None, error: str = None):
+    hmtCOnus = f"""
+        <!doctype html>
+        <html lang='en'>
+        <head>
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+            <title>PLANTILLA</title>
+            <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
+            <link rel="stylesheet" href="static/css/styles.css">
+        </head>
+        <body>
+            <div class='container mt-5'>
+                <div class='d-flex align-items-center mb-4'>
+                    <img src='static/images/logo.png' alt='bot' class='logo'>
+                    <div class='title-container ms-3'>
+                        <h1>Insertar nuevo actor</h1>
+                    </div>
+                </div>
+                <div class="form-container">
+                    {f"<div class='alert alert-success'>{message}</div>" if message else ""}
+                    {f"<div class='alert alert-danger'>{error}</div>" if error else ""}
+                    <form action="/insertActor" method="post">
+                        <label for="op1">Nuevo ID :</label>
+                        <input type="text" id="op1" name="person_id"><br><br>
+                        <label for="op2">Nombre :</label>
+                        <input type="text" id="op2" name="person_name"><br><br>
+                        <input type="submit" value="Insertar Datos">
+                    </form>
+                </div>
+                <a href="/menuA" class="btn btn-primary">Volver al Menú</a>
+            </div>
+            <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous'></script>
+        </body>
+        </html>
     """
+    return HTMLResponse(hmtCOnus, status_code=200)
 
+@user.post("/insertActor")
+async def InsertarDatos(request: Request, person_id: str = Form(...), person_name: str = Form(...)):
     try:
-        conn = create_connection("localhost", "root", "root", "PRUBA2")
-        cursor= conn.cursor()
-
+        conn = create_connection("localhost", "root", "root", "movies")
+        cursor = conn.cursor()
+        
         cursor.execute("""
-            SELECT * FROM Nombre1
-        """)
+            INSERT INTO person (person_id, person_name) VALUES (%s, %s)
+        """, (person_id, person_name))
         
-        rows= cursor.fetchall()
-        
-        result = "<table class='table table-hover'>"
-        result += "<tr><th>PEDRO</th><th>CRIZ</th> </tr>"
-
-        for row in rows:
-             result += "<tr><td>" + str(row[0])  + "</td>"
-             result += "<td> " + str(row[1])+ "</td> </tr>"
-
-        result += "</table>"    
-
-        conn.close()
-        print("Conecion exitosa :D")
-
-        return HTMLResponse(content=headerMOvies + result + footer_html, status_code=200)
-        
-    except mysql.connector.Error as eror :
-         
-         return {}
-
-@user.get("/InsertarPagina")
-async def InsercionMask():
-    hmtCOnus = """"
-        <!doctype html>
-<html lang='en'>
-  <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>PLANTILLA</title>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
-    <link rel="stylesheet" href="static/css/styles.css">
-  </head>
-  <body>
-    <div class='container mt-5'>
-      <div class='d-flex align-items-center mb-4'>
-
-        <img src='static/images/logo.png' alt='bot' class='logo'>
-      
-        <div class='title-container ms-3'>
-          <h1>Resultados de la Consulta SQL</h1>
-        </div>
-      </div>
-      <div class="form-container">  <!-- Agregamos la clase form-container al contenedor del formulario -->
-        <h1>Insertar Datos en la Base de Datos</h1> 
-        <form action="/insertDB" method="post">
-          <label for="op1">Valor de Op1:</label>
-          <input type="text" id="op1" name="Op1"><br><br>
-          <label for="op2">Valor de Op2:</label>
-          <input type="text" id="op2" name="Op2"><br><br>
-          <input type="submit" value="Insertar Datos">
-        </form>
-      </div>
-    </div>  
-
-    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous'></script>
-  </body>
-</html>
-    
-    """
-
-
-    return HTMLResponse(hmtCOnus, status_code=200)
-        
-    
-@user.post("/insertDB")
-async def InsertarDatos(request: Request, Op1: str = Form(...), Op2: str = Form(...)):
-
-
-    try:
-        conn = create_connection("localhost","root","root", "PRUBA2")
-        cursor = conn.cursor()
-        print("Conecion exitosa :D2222")
-        cursor.execute(f"""
-            INSERT INTO `Nombre1`(`Pedro`, `Cruz`) VALUES (%s, %s)
-        """, (Op1, Op2))
-
         conn.commit()
         conn.close()
         
-        return HTMLResponse(content=f" INSERT EXITOSO :D DATOS {Op1},{Op2}", status_code=200)
+        return RedirectResponse(url=f"/InsertarActor?message=Insertar+Exitoso%3A+{person_id}%2C+{person_name}", status_code=303)
 
     except Error as error:
-        #return {}
-        raise HTTPException(status_code=500, detail=f"Error al insertar datos: {error}")
+        return RedirectResponse(url=f"/InsertarActor?error=Error+al+insertar+datos%3A+{str(error)}", status_code=303)
 
 
-@user.get("/InsertarPagina")
-async def InsercionMask():
-    hmtCOnus = """"
+@user.get("/InsertarPelicula")
+async def InsertarPelicula(request: Request, message: str = None, error: str = None):
+    hmtCOnus = f"""
         <!doctype html>
-<html lang='en'>
-  <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>PLANTILLA</title>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
-    <link rel="stylesheet" href="static/css/styles.css">
-  </head>
-  <body>
-    <div class='container mt-5'>
-      <div class='d-flex align-items-center mb-4'>
-
-        <img src='static/images/logo.png' alt='bot' class='logo'>
-      
-        <div class='title-container ms-3'>
-          <h1>Resultados de la Consulta SQL</h1>
-        </div>
-      </div>
-      <div class="form-container">  <!-- Agregamos la clase form-container al contenedor del formulario -->
-        <h1>Insertar Datos en la Base de Datos</h1> 
-        <form action="/insertDB" method="post">
-          <label for="op1">Valor de Op1:</label>
-          <input type="text" id="op1" name="Op1"><br><br>
-          <label for="op2">Valor de Op2:</label>
-          <input type="text" id="op2" name="Op2"><br><br>
-          <input type="submit" value="Insertar Datos">
-        </form>
-      </div>
-    </div>  
-
-    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous'></script>
-  </body>
-</html>
-    
+        <html lang='en'>
+        <head>
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+            <title>Insertar Nueva Película</title>
+            <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
+            <link rel="stylesheet" href="static/css/styles.css">
+        </head>
+        <body>
+            <div class='container mt-5'>
+                <div class='d-flex align-items-center mb-4'>
+                    <img src='static/images/logo.png' alt='bot' class='logo'>
+                    <div class='title-container ms-3'>
+                        <h1>Insertar Nueva Película</h1>
+                    </div>
+                </div>
+                <div class="form-container">
+                    {f"<div class='alert alert-success'>{message}</div>" if message else ""}
+                    {f"<div class='alert alert-danger'>{error}</div>" if error else ""}
+                    <form action="/insertPelicula" method="post">
+                        <label for="id_pelicula">ID Película:</label>
+                        <input type="text" id="id_pelicula" name="id_pelicula"><br><br>
+                        <label for="title">Título:</label>
+                        <input type="text" id="title" name="title"><br><br>
+                        <label for="budget">Presupuesto:</label>
+                        <input type="text" id="budget" name="budget"><br><br>
+                        <label for="homepage">Página Principal:</label>
+                        <input type="text" id="homepage" name="homepage"><br><br>
+                        <label for="overview">Resumen:</label>
+                        <input type="text" id="overview" name="overview"><br><br>
+                        <label for="popularity">Popularidad:</label>
+                        <input type="text" id="popularity" name="popularity"><br><br>
+                        <label for="release_date">Fecha de Estreno:</label>
+                        <input type="text" id="release_date" name="release_date"><br><br>
+                        <label for="revenue">Ingresos:</label>
+                        <input type="text" id="revenue" name="revenue"><br><br>
+                        <label for="runtime">Duración:</label>
+                        <input type="text" id="runtime" name="runtime"><br><br>
+                        <label for="movie_status">Estado:</label>
+                        <input type="text" id="movie_status" name="movie_status"><br><br>
+                        <label for="tagline">Eslogan:</label>
+                        <input type="text" id="tagline" name="tagline"><br><br>
+                        <label for="vote_average">Promedio de Votos:</label>
+                        <input type="text" id="vote_average" name="vote_average"><br><br>
+                        <label for="vote_count">Número de Votos:</label>
+                        <input type="text" id="vote_count" name="vote_count"><br><br>
+                        <input type="submit" value="Insertar Película">
+                    </form>
+                </div>
+                <a href="/menuA" class="btn btn-primary">Volver al Menú</a>
+            </div>
+            <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous'></script>
+        </body>
+        </html>
     """
-
-
     return HTMLResponse(hmtCOnus, status_code=200)
-        
-    
-@user.post("/insertDB")
-async def InsertarDatos(request: Request, Op1: str = Form(...), Op2: str = Form(...)):
 
-
+@user.post("/insertPelicula")
+async def insertPelicula(request: Request, id_pelicula: str = Form(...), title: str = Form(...),
+                          budget: str = Form(...), homepage: str = Form(...), overview: str = Form(...),
+                          popularity: str = Form(...), release_date: str = Form(...), revenue: str = Form(...),
+                          runtime: str = Form(...), movie_status: str = Form(...), tagline: str = Form(...),
+                          vote_average: str = Form(...), vote_count: str = Form(...)):
     try:
-        conn = create_connection("localhost","root","root", "PRUBA2")
+        conn = create_connection("localhost", "root", "root", "movies")
         cursor = conn.cursor()
-        print("Conecion exitosa :D2222")
-        cursor.execute(f"""
-            INSERT INTO `Nombre1`(`Pedro`, `Cruz`) VALUES (%s, %s)
-        """, (Op1, Op2))
-
+        
+        cursor.execute("""
+            INSERT INTO movie ( id_pelicula, title, budget, homepage, overview, popularity, release_date, revenue, runtime, movie_status, tagline, vote_average, vote_count)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, ( id_pelicula, title, budget, homepage, overview, popularity, release_date, revenue, runtime, movie_status, tagline, vote_average, vote_count))
+        
         conn.commit()
         conn.close()
         
-        return HTMLResponse(content=f" INSERT EXITOSO :D DATOS {Op1},{Op2}", status_code=200)
+        return RedirectResponse(url=f"/InsertarPelicula?message=Insertar+Exitoso%3A+{title}", status_code=303)
 
     except Error as error:
-        #return {}
-        raise HTTPException(status_code=500, detail=f"Error al insertar datos: {error}")
+        return RedirectResponse(url=f"/InsertarPelicula?error=Error+al+insertar+datos%3A+{str(error)}", status_code=303)
+    
+
+@user.get("/InsertarKeyWord")
+async def InsertarKeyWord(request: Request, message: str = None, error: str = None):
+    hmtCOnus = f"""
+        <!doctype html>
+        <html lang='en'>
+        <head>
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+            <title>PLANTILLA</title>
+            <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
+            <link rel="stylesheet" href="static/css/styles.css">
+        </head>
+        <body>
+            <div class='container mt-5'>
+                <div class='d-flex align-items-center mb-4'>
+                    <img src='static/images/logo.png' alt='bot' class='logo'>
+                    <div class='title-container ms-3'>
+                        <h1>Insertar nuevo actor</h1>
+                    </div>
+                </div>
+                <div class="form-container">
+                    {f"<div class='alert alert-success'>{message}</div>" if message else ""}
+                    {f"<div class='alert alert-danger'>{error}</div>" if error else ""}
+                    <form action="/insertKeyWord" method="post">
+                        <label for="op1">Nuevo ID :</label>
+                        <input type="text" id="op1" name="id_keyword"><br><br>
+                        <label for="op2">KeyWord :</label>
+                        <input type="text" id="op2" name="keyword"><br><br>
+                        <input type="submit" value="Insertar Datos">
+                    </form>
+                </div>
+                <a href="/menuA" class="btn btn-primary">Volver al Menú</a>
+            </div>
+            <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous'></script>
+        </body>
+        </html>
+    """
+    return HTMLResponse(hmtCOnus, status_code=200)
+
+@user.post("/insertKeyWord")
+async def insertKeyWord(request: Request, id_keyword: str = Form(...), keyword: str = Form(...)):
+    try:
+        conn = create_connection("localhost", "root", "root", "movies")
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            INSERT INTO keyword(`keyword_id`, `keyword_name`) VALUES (%s,%s)                       
+        """, (id_keyword, keyword))
+        
+        conn.commit()
+        conn.close()
+        
+        return RedirectResponse(url=f"/InsertarActor?message=Insertar+Exitoso%3A+{id_keyword}%2C+{keyword}", status_code=303)
+
+    except Error as error:
+        return RedirectResponse(url=f"/InsertarActor?error=Error+al+insertar+datos%3A+{str(error)}", status_code=303)
