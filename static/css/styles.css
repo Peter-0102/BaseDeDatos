@@ -1,87 +1,117 @@
-
+/* Estilos CSS */
 body {
-  /* Gradiente lineal de arriba a abajo (top to bottom) */
+  /* Gradiente lineal de arriba a abajo */
   background: linear-gradient(to bottom, #030637, #3C0753);
-  
-  /* Alternativa para navegadores más antiguos (puedes omitir si no necesitas soportar navegadores muy antiguos) */
-  /*background: -webkit-linear-gradient(to bottom, #ff7e5f, #feb47b);
-  background: -moz-linear-gradient(to bottom, #ff7e5f, #feb47b);
-  background: -o-linear-gradient(to bottom, #ff7e5f, #feb47b);
-  background: -ms-linear-gradient(to bottom, #ff7e5f, #feb47b);*/
-  
-  /* Asegurarse de que el fondo cubre toda la página */
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  color: #ffffff; /* Color de texto blanco para mejor contraste */
 }
 
-
-/* Estilizar el contenedor con las clases .container y .mt-5 */
 .container.mt-5 {
   /* Agrega un borde */
   border: 2px solid #000;
-  
   /* Redondea las esquinas */
   border-radius: 5px;
-  
   /* Agrega un fondo de color */
   background-color: #030637;
-  
   /* Añade un poco de padding */
   padding: 10px;
-  
   /* Sombra */
   box-shadow: 0 14px 15px rgba(1, 0, 0, 0.5);
-}
-
-/* css/styles.css */
-
-/* Estilizar el contenedor del título */
-.title-container {
-  background-color: #030637; /* Color de fondo */
-  padding: 15px;            /* Espaciado interno */
-  text-align: left;         /* Alinear el texto a la izquierda */
-  border-radius: 5px;       /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
-}
-
-/* Estilizar el título */
-.title-container h1 {
-  margin: 0;                /* Quitar el margen del título */
-  color: #007bff;           /* Color del texto */
-  font-family: 'Arial', sans-serif; /* Fuente */
-}
-
-/* Estilizar el logo */
+  }
 .logo {
-  width: 50px; /* Ajusta el tamaño del logo según sea necesario */
+  
+  width: 100px; /* Ajusta el tamaño del logo según sea necesario */
   height: auto;
 }
-
-
-.form-container {
-    background-color: #030637; /* Color de fondo para el formulario */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Sombra para efecto de elevación */
+    
+.title-container {
+  background-color: #030637;
+  padding: 15px;
+  text-align: left;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .title-container h1 {
-    background-color: #030637; /* Color de fondo para el título */
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1); /* Sombra para efecto de elevación */
+  margin-left: 350px;
+  color: #007bff; /* Color del texto del título */
+  font-family: 'Arial', sans-serif;
 }
 
-.mi-boton {
-  background-color: #4CAF50; /* Verde */
-  border: black;
-  color: blanco;
-  padding: 15px 32px;
+/* Estilos para el contenedor de etiquetas y cuadros de entrada */
+
+
+/* Estilos para etiquetas */
+label {
+  margin-left : 350px;
+  color: #ece4e4;
+  width: 300px; /* Ancho fijo para las etiquetas */
+  font-size: 25px;
+  font-weight: bold;
+  text-shadow: 
+      -1px -1px 0 black,  
+      1px -1px 0 black,
+      -1px  1px 0 black,
+       1px  1px 0 black;
+}
+
+
+
+/* Estilos para cuadros de entrada */
+input[type=text] {
+  flex: 1; /* Permitimos que el cuadro de entrada se expanda */
+  color: #0e0d0d;
+  padding-left: 5px;
+  width: 250px; /* Ancho fijo para los cuadros de entrada */
+  height: 30px; /* Altura fija para los cuadros de entrada */
+  border: none;
+  background-color: rgba(255, 255, 255, 0.35); 
+  font-weight: bold;
+  font-size: 16px;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 35px;
-  margin: 4px 2px;
+}
+
+.centered-container {
+  text-align: center; /* Centra horizontalmente los elementos dentro del contenedor */
+  margin-top: 20px; /* Margen superior para separar los elementos */
+}
+
+input[type=submit] {
+  margin: 20px auto 0; /* 20px de margen superior y automático horizontalmente */
+  width: 170px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#0e75c5), to(#055a9d));
+  background-image: -moz-linear-gradient(top left 90deg, #0e75c5 0%, #055a9d 100%);
+  background-image: linear-gradient(top left 90deg, #0e75c5 0%, #055a9d 100%);
+  border-radius: 30px;
+  border: 1px solid #0e75c5;
+  box-shadow: 0 1px 2px rgba(7, 124, 219, 0.3), inset 0 1px 0 rgba(255, 255, 255, .5);
   cursor: pointer;
+}
+
+.btn-primary {
+  display: inline-block;
+  margin: 20px auto 0; /* 20px de margen superior y automático horizontalmente */
+  padding: 5px 15px; /* Ajusta el padding para que se asemeje al tamaño del botón */
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center; /* Alinea el texto al centro */
+  text-decoration: none; /* Elimina el subrayado del enlace */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#0e75c5), to(#055a9d));
+  background-image: -moz-linear-gradient(top left 90deg, #0e75c5 0%, #055a9d 100%);
+  background-image: linear-gradient(top left 90deg, #0e75c5 0%, #055a9d 100%);
+  border-radius: 30px;
+  border: 1px solid #0e75c5;
+  box-shadow: 0 1px 2px rgba(7, 124, 219, 0.3), inset 0 1px 0 rgba(255, 255, 255, .5);
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #055a9d; /* Cambia el color de fondo al pasar el mouse */
 }

@@ -534,8 +534,7 @@ async def menuA():
                 <li><a href="/InsertarKeyWord">Agregar keyword</a></li>
             </ul>
         </li>
-        <li><a href="#">Eliminar</a></li>
-        <li><a href="#">Actualizar</a></li>
+        
     </ul>
 </body>
 </html>
@@ -614,6 +613,7 @@ async def InsertarPelicula(request: Request, message: str = None, error: str = N
             <title>Insertar Nueva Película</title>
             <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous'>
             <link rel="stylesheet" href="static/css/styles.css">
+            
         </head>
         <body>
             <div class='container mt-5'>
@@ -627,36 +627,67 @@ async def InsertarPelicula(request: Request, message: str = None, error: str = N
                     {f"<div class='alert alert-success'>{message}</div>" if message else ""}
                     {f"<div class='alert alert-danger'>{error}</div>" if error else ""}
                     <form action="/insertPelicula" method="post">
-                        <label for="id_pelicula">ID Película:</label>
-                        <input type="text" id="id_pelicula" name="id_pelicula"><br><br>
-                        <label for="title">Título:</label>
-                        <input type="text" id="title" name="title"><br><br>
-                        <label for="budget">Presupuesto:</label>
-                        <input type="text" id="budget" name="budget"><br><br>
-                        <label for="homepage">Página Principal:</label>
-                        <input type="text" id="homepage" name="homepage"><br><br>
-                        <label for="overview">Resumen:</label>
-                        <input type="text" id="overview" name="overview"><br><br>
-                        <label for="popularity">Popularidad:</label>
-                        <input type="text" id="popularity" name="popularity"><br><br>
-                        <label for="release_date">Fecha de Estreno:</label>
-                        <input type="text" id="release_date" name="release_date"><br><br>
-                        <label for="revenue">Ingresos:</label>
-                        <input type="text" id="revenue" name="revenue"><br><br>
-                        <label for="runtime">Duración:</label>
-                        <input type="text" id="runtime" name="runtime"><br><br>
-                        <label for="movie_status">Estado:</label>
-                        <input type="text" id="movie_status" name="movie_status"><br><br>
-                        <label for="tagline">Eslogan:</label>
-                        <input type="text" id="tagline" name="tagline"><br><br>
-                        <label for="vote_average">Promedio de Votos:</label>
-                        <input type="text" id="vote_average" name="vote_average"><br><br>
-                        <label for="vote_count">Número de Votos:</label>
-                        <input type="text" id="vote_count" name="vote_count"><br><br>
-                        <input type="submit" value="Insertar Película">
+                        <div class="input-container">
+                            <label for="id_pelicula">ID Película:</label>
+                            <input type="text" id="id_pelicula" name="id_pelicula"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="title">Título:</label>
+                            <input type="text" id="title" name="title" ><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="budget">Presupuesto:</label>
+                            <input type="text" id="budget" name="budget"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="homepage">Página Principal:</label>
+                            <input type="text" id="homepage" name="homepage"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="overview">Resumen:</label>
+                            <input type="text" id="overview" name="overview"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="popularity">Popularidad:</label>
+                            <input type="text" id="popularity" name="popularity"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="release_date">Fecha de Estreno:</label>
+                            <input type="text" id="release_date" name="release_date"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="revenue">Ingresos:</label>
+                            <input type="text" id="revenue" name="revenue"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="runtime">Duración:</label>
+                            <input type="text" id="runtime" name="runtime"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="movie_status">Estado:</label>
+                            <input type="text" id="movie_status" name="movie_status"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="tagline">Eslogan:</label>
+                            <input type="text" id="tagline" name="tagline"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="vote_average">Promedio de Votos:</label>
+                            <input type="text" id="vote_average" name="vote_average"><br><br>
+                        </div>
+                        <div class="input-container">
+                            <label for="vote_count">Número de Votos:</label>
+                            <input type="text" id="vote_count" name="vote_count"><br><br>
+                        </div>
+                        <div class="centered-container">
+                            <input type="submit" value="Insertar Película">
+                        </div>
+                        
                     </form>
                 </div>
-                <a href="/menuA" class="btn btn-primary">Volver al Menú</a>
+                <div class="centered-container">
+                    <a href="/menuA" class="btn btn-primary">Volver al Menú</a>
+                </div>
             </div>
             <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz' crossorigin='anonymous'></script>
         </body>
